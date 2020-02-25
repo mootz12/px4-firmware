@@ -31,73 +31,51 @@ Developers should read the [Guide for Contributions](https://dev.px4.io/en/contr
 See the [forum and chat](https://dev.px4.io/en/#support) if you need help!
 
 
-### Weekly Dev Call
+## Setup for PX4
 
-The PX4 Dev Team syncs up on a [weekly dev call](https://dev.px4.io/en/contribute/#dev_call).
+#### Install Windows Cygwin
 
-> **Note** The dev call is open to all interested developers (not just the core dev team). This is a great opportunity to meet the team and contribute to the ongoing development of the platform. It includes a QA session for newcomers. All regular calls are listed in the [Dronecode calendar](https://www.dronecode.org/calendar/).
+This gives you the toolchains needed to build / simulate PX4 firmware on Windows (and is also used to compile Pixhawk4 builds).
 
+Download the MSI from [PX4](https://github.com/PX4/windows-toolchain/releases/tag/v0.8).
+* Keep clicking next (would be good to leave installation in default locations)
+* DO NOT CLICK THE BOX TO AUTO-CLONE REPO
 
-## Maintenance Team
+#### Clone the Repo
 
-  * Project: Founder - [Lorenz Meier](https://github.com/LorenzMeier), Architecture: [Daniel Agar](https://github.com/dagar)
-    * [Dev Call](https://github.com/PX4/Firmware/labels/devcall) - [Ramon Roche](https://github.com/mrpollo)
-  * Communication Architecture
-    * [Beat Kueng](https://github.com/bkueng)
-    * [Julian Oes](https://github.com/JulianOes)
-  * UI in QGroundControl
-    * [Gus Grubba](https://github.com/dogmaphobic)
-  * [Multicopter Flight Control](https://github.com/PX4/Firmware/labels/multicopter)
-    * [Mathieu Bresciani](https://github.com/bresch)
-  * [Multicopter Software Architecture](https://github.com/PX4/Firmware/labels/multicopter)
-    * [Matthias Grob](https://github.com/MaEtUgR)
-  * [VTOL Flight Control](https://github.com/PX4/Firmware/labels/vtol)
-    * [Roman Bapst](https://github.com/RomanBapst)
-  * [Fixed Wing Flight Control](https://github.com/PX4/Firmware/labels/fixedwing)
-    * [Roman Bapst](https://github.com/RomanBapst)
-  * OS / NuttX [David Sidrane](https://github.com/davids5)
-  * Driver Architecture [Daniel Agar](https://github.com/dagar)
-  * Commander Architecture [Julian Oes](https://github.com/julianoes)
-  * [UAVCAN](https://github.com/PX4/Firmware/labels/uavcan) [Daniel Agar](https://github.com/dagar)
-  * [State Estimation](https://github.com/PX4/Firmware/issues?q=is%3Aopen+is%3Aissue+label%3A%22state+estimation%22) - [Paul Riseborough](https://github.com/priseborough)
-  * Vision based navigation
-    * [Julian Kent](https://github.com/jkflying)
-  * Obstacle Avoidance - [Martina Rivizzigno](https://github.com/mrivi)
-  * RTPS/ROS2 Interface - [Nuno Marques](https://github.com/TSC21)
+NOTE: PX4 Documentation recommends using the Cygwin bash console when perfoming any terminal commands.
 
-See also [About Us](http://px4.io/about-us/#development_team) (px4.io) and the [contributors list](https://github.com/PX4/Firmware/graphs/contributors) (Github).
+Navigate to the installation directory in your terminal of choice `C:\PX4\`
 
-## Supported Hardware
+Launch the Cygwin bash console by running __run-console.bat__ with the command `.\run-console.bat`
 
-This repository contains code supporting these boards:
-  * [Snapdragon Flight](https://docs.px4.io/master/en/flight_controller/snapdragon_flight.html)
-  * [Intel Aero](https://docs.px4.io/master/en/flight_controller/intel_aero.html)
-  * [Raspberry PI with Navio 2](https://docs.px4.io/master/en/flight_controller/raspberry_pi_navio2.html)
-  * FMUv2
-    * [Pixhawk](https://docs.px4.io/master/en/flight_controller/pixhawk.html)
-    * [Pixfalcon](https://docs.px4.io/master/en/flight_controller/pixfalcon.html)
-  * FMUv3
-    * [Pixhawk 2](https://docs.px4.io/master/en/flight_controller/pixhawk-2.html)
-    * [Pixhawk Mini](https://docs.px4.io/master/en/flight_controller/pixhawk_mini.html)
-    * [CUAV Pixhack v3](https://docs.px4.io/master/en/flight_controller/pixhack_v3.html)
-  * FMUv4
-    * [Pixracer](https://docs.px4.io/master/en/flight_controller/pixracer.html)
-    * [Pixhawk 3 Pro](https://docs.px4.io/master/en/flight_controller/pixhawk3_pro.html)
-  * FMUv5 (ARM Cortex M7)
-    * [Pixhawk 4](https://docs.px4.io/master/en/flight_controller/pixhawk4.html)
-    * [Pixhawk 4 mini](https://docs.px4.io/master/en/flight_controller/pixhawk4_mini.html)
-    * [CUAV V5+](https://docs.px4.io/master/en/flight_controller/cuav_v5_plus.html)
-    * [CUAV V5 nano](https://docs.px4.io/master/en/flight_controller/cuav_v5_nano.html)
-  * [Airmind MindPX V2.8](http://www.mindpx.net/assets/accessories/UserGuide_MindPX.pdf)
-  * [Airmind MindRacer V1.2](http://mindpx.net/assets/accessories/mindracer_user_guide_v1.2.pdf)
-  * [Bitcraze Crazyflie 2.0](https://docs.px4.io/master/en/flight_controller/crazyflie2.html)
-  * [Omnibus F4 SD](https://docs.px4.io/master/en/flight_controller/omnibus_f4_sd.html)
-  * [BeagleBone Blue](https://docs.px4.io/master/en/flight_controller/beaglebone_blue.html)
-  * [Holybro Durandal](https://docs.px4.io/master/en/flight_controller/durandal.html)
-  * [Holybro Kakute F7](https://docs.px4.io/master/en/flight_controller/kakutef7.html)
+Clone the repo: 
+```
+git clone https://github.com/mootz12/px4-firmware.git
+```
 
-Additional information about supported hardware can be found in [PX4 user Guide > Autopilot Hardware](https://docs.px4.io/master/en/flight_controller/).
+When opening the project via VS Code, it will live at `C:\PX4\home\px4-firmware`
 
-## Project Roadmap
+#### Test the Simulation
 
-A high level project roadmap is available [here](https://www.dronecode.org/roadmap/).
+NOTE: You will need to have Java installed.
+
+Navigate to your firmware from the Cygwin console with `cd px4-firmware`
+
+Execute the command (this will take a long time the first time...):
+```
+make px4_sitl jmavsim
+```
+
+If you see the following error in your terminal output, follow the steps below:
+```
+WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0x80000002. Windows RegCreateKeyEx(...) returned error code 5.
+```
+* Go into your Start Menu and type regedit into the search field (open the Registry Editor)
+* Navigate to path HKEY_LOCAL_MACHINE\Software\JavaSoft
+* Right click on the JavaSoft folder and click on New -> Key
+* Name the new key `Prefs`
+* CTRL+C to close the application in the terminal if you haven't already and try running jMAVSim again
+
+Now that the jMAVSim is runnning, view the following [documentation](https://dev.px4.io/v1.9.0/en/simulation/jmavsim.html) to use it.
+
