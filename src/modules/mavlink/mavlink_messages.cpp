@@ -111,6 +111,8 @@
 #include <uORB/topics/vtol_vehicle_status.h>
 #include <uORB/topics/wind_estimate.h>
 
+#include <uORB/topics/sensor_winglet.h>
+
 using matrix::Vector3f;
 using matrix::wrap_2pi;
 
@@ -303,6 +305,70 @@ void get_mavlink_mode_state(const struct vehicle_status_s *const status, uint8_t
 	}
 }
 
+
+/* Custome MavlinkStream Message for sensor_winglet */
+class MavlinkStreamSensorWinglet : public MavlinkStream
+{
+public:
+    const char *get_name() const
+    {
+        return MavlinkStreamSensorWinglet::get_name_static();
+    }
+    static const char *get_name_static()
+    {
+        return "SENSOR_WINGLET";
+    }
+    uint16_t get_id_static()
+    {
+        return MAVLINK_MSG_ID_SENSOR_WINGLET;
+    }
+    uint16_t get_id()
+    {
+        return get_id_static();
+    }
+    static MavlinkStream *new_instance(Mavlink *mavlink)
+    {
+        return new MavlinkStreamSensorWinglet(mavlink);
+    }
+    unsigned get_size()
+    {
+        return MAVLINK_MSG_ID_SENSOR_WINGLET_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES;
+    }
+
+private:
+    uORB::Subscription _status_sub{ORB_ID(sensor_winglet)};
+    uint64_t _ca_traj_time;
+
+    /* do not allow top copying this class */
+    MavlinkStreamSensorWinglet(MavlinkStreamSensorWinglet &);
+    MavlinkStreamSensorWinglet& operator = (const MavlinkStreamSensorWinglet &);
+
+protected:
+    explicit MavlinkStreamSensorWinglet(Mavlink *mavlink) : MavlinkStream(mavlink),
+        _sub(_mavlink->add_orb_subscription(ORB_ID(sensor_winglet))),  // make sure you enter the name of your uORB topic here
+        _ca_traj_time(0)
+    {}
+
+    bool send(const hrt_abstime t)
+    {
+        struct sensor_winglet_s _sensor_winglet;    //make sure ca_traj_struct_s is the definition of your uORB topic
+
+        if (_sub->update(&_ca_traj_time, &_sensor_winglet)) {
+            mavlink_sensor_winglet_t _msg_sensor_winglet;  //make sure mavlink_ca_trajectory_t is the definition of your custom MAVLink message
+
+            _msg_sensor_winglet.timestamp = _sensor_winglet.timestamp;
+	    _msg_sensor_winglet.x = _sensor_winglet.x;
+	    _msg_sensor_winglet.y = _sensor_winglet.y;
+	    _msg_sensor_winglet.z = _sensor_winglet.z;
+	    _msg_sensor_winglet.w = _sensor_winglet.w;
+            _msg_sensor_winglet.id = _sensor_winglet.id;
+
+            mavlink_msg_sensor_winglet_send_struct(_mavlink->get_channel(), &_msg_sensor_winglet)
+        }
+
+        return true;
+    }
+};
 
 class MavlinkStreamHeartbeat : public MavlinkStream
 {
